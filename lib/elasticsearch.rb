@@ -35,9 +35,13 @@ module ElasticSearch
 
   # Object to represent an index in elasticsearch
   class Index
+    @@conn = nil
     def initialize(name, server)
       @name = name
-      @conn = ElasticSearch.get_connection(server)
+      if @@conn.blank?
+        @@conn = ElasticSearch.get_connection(server)
+      end
+      @conn = @@conn
     end
 
     # Some helpers for making REST calls to elasticsearch
